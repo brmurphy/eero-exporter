@@ -46,6 +46,8 @@ The exporter has one argument, the port. The default port is `9118`.
 ```shell script
 python eero_exporter.py -port 9118
 ```
+## Docker
+Please see [acaranta's repo](https://github.com/acaranta/docker-eero-prometheus-exporter) for instructions to run via Docker. Thank you, [acaranta](https://github.com/acaranta)!
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
