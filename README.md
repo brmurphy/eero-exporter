@@ -7,7 +7,7 @@ eero-exporter is a [Prometheus exporter](https://prometheus.io/docs/instrumentin
 eero_speed_upload_mbps{id="1234567"} 10.025496
 # HELP eero_speed_download_mbps Current service response download (Mbps)
 # TYPE eero_speed_download_mbps gauge
-eero_speed_download_mbps{id="234567"} 113.158512
+eero_speed_download_mbps{id="1234567"} 113.158512
 # HELP eero_health_status Current connection status
 # TYPE eero_health_status gauge
 eero_health_status{source="internet",id="1234567"} 1.0
