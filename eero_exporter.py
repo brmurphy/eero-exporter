@@ -23,7 +23,7 @@ class JsonCollector(object):
             yield metric2
 
             network_health = network_details['health']
-            metric3 = GaugeMetricFamily('eero_health_status', 'Current connection status', labels=['url', 'source'])
+            metric3 = GaugeMetricFamily('eero_health_status', 'Current connection status', labels=['id', 'source'])
             metric3.add_metric([id, 'internet'], 1 if network_health['internet']['status'] == 'connected' else 0)
             metric3.add_metric([id, 'eero_network'], 1 if network_health['eero_network']['status'] == 'connected' else 0)
             yield metric3
