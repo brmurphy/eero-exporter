@@ -2,9 +2,9 @@
 from argparse import ArgumentParser
 import eero
 import six
-import yaml_store
+import cookie_store
 
-session = yaml_store.YamlStore('session.yml')
+session = cookie_store.YamlStore('session.yml')
 eero = eero.Eero(session)
 
 if __name__ == '__main__':

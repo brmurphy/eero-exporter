@@ -2,7 +2,7 @@ from yaml import load, dump, SafeDumper, SafeLoader
 import eero
 
 
-class YamlStore(eero.SessionStorage):
+class CookieStore(eero.SessionStorage):
     def __init__(self, yaml_file):
         from os import path
         self.yaml_file = path.abspath(yaml_file)
