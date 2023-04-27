@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from argparse import ArgumentParser
 import eero
+from eero.exception import ClientException
 import six
 import cookie_store
 
@@ -16,7 +17,10 @@ if __name__ == '__main__':
             account_info = args.l
         else:
             account_info = six.moves.input('your eero login (email address or phone number): ')
-        user_token = eero.login(account_info)
-        verification_code = six.moves.input('verification key from email or SMS: ')
-        eero.login_verify(verification_code, user_token)
-        print('Session key stored in session.yml')
+        try:
+            user_token = eero.login(account_info)
+            verification_code = six.moves.input('verification key from email or SMS: ')
+            eero.login_verify(verification_code, user_token)
+            print('Session key stored in session.yml')
+        except ClientException as cex:
+            print('Error: status {}, message {}'.format(cex.status, cex.error_message))
