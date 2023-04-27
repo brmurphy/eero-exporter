@@ -4,7 +4,7 @@ import eero
 import six
 import cookie_store
 
-session = cookie_store.YamlStore('session.yml')
+session = cookie_store.CookieStore('session.yml')
 eero = eero.Eero(session)
 
 if __name__ == '__main__':
