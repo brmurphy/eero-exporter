@@ -1,3 +1,3 @@
 [tool.ruff]
-# Decrease the maximum line length to 79 characters.
+# I'm not mad about long lines in Python. Don't @ me
 line-length = 140
