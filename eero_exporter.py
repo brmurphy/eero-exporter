@@ -5,7 +5,6 @@ from prometheus_client.core import GaugeMetricFamily, InfoMetricFamily, REGISTRY
 import eero as eero_api
 import time
 import cookie_store
-import sys
 from datetime import datetime
 
 class JsonCollector(object):
