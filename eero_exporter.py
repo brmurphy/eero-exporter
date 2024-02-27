@@ -98,7 +98,7 @@ class JsonCollector(object):
             network_clients = eero_api_session.devices(network['url'])
 
             # Global Labels and Values
-            label_values = [network['url'].split('/')[3], network["name"], network["nickname_label"] if network["nickname_label"] != None else network["name"] ]
+            label_values = [network_id, network["name"], network["nickname_label"] if network["nickname_label"] != None else network["name"] ]
 
             metrics["ssid"].add_metric(label_values, value = {"ssid" : network["name"]})
 
