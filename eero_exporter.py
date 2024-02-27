@@ -202,8 +202,8 @@ class JsonCollector(object):
                     metrics["client_connection_quality"].add_metric(client_label_values, client["connectivity"]["score"])
                     metrics["client_connection_wireless_frequency"].add_metric(client_label_values, client["connectivity"]["frequency"])
 
-                    metrics["client_rx_bandwidth"].add_metric(client_label_values, client["connectivity"]["rx_rate_info"]["rate_bps"] if client["connectivity"]["rx_rate_info"]["rate_bps"] != None else 0)
-                    metrics["client_tx_bandwidth"].add_metric(client_label_values, client["connectivity"]["tx_rate_info"]["rate_bps"] if client["connectivity"]["tx_rate_info"]["rate_bps"] != None else 0)
+                    metrics["client_rx_bandwidth"].add_metric(client_label_values, client["connectivity"]["rx_rate_info"]["rate_bps"] if client["connectivity"]["rx_rate_info"]["rate_bps"] is not None else 0)
+                    metrics["client_tx_bandwidth"].add_metric(client_label_values, client["connectivity"]["tx_rate_info"]["rate_bps"] if client["connectivity"]["tx_rate_info"]["rate_bps"] is not None else 0)
 
                     for rx in client["connectivity"]["rx_rate_info"]:
                         if client["connectivity"]["rx_rate_info"][rx] is not None:
