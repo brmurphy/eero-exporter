@@ -98,7 +98,7 @@ class JsonCollector(object):
             network_clients = eero_api_session.devices(network['url'])
 
             # Global Labels and Values
-            label_values = [network_id, network["name"], network["nickname_label"] if network["nickname_label"] != None else network["name"] ]
+            label_values = [network_id, network["name"], network["nickname_label"] if network["nickname_label"] is not None else network["name"] ]
 
             metrics["ssid"].add_metric(label_values, value = {"ssid" : network["name"]})
 
@@ -145,9 +145,9 @@ class JsonCollector(object):
                 if network_details["premium_dns"]["dns_policies"][policy]:
                     metrics["premium_dns_policies"].add_metric(label_values, value = {"policy" : policy})
 
-            metrics["last_reboot"].add_metric(label_values, datetime.timestamp(datetime.strptime(network_details["last_reboot"], "%Y-%m-%dT%H:%M:%S.%fZ")) if network_details["last_reboot"] != None else 0)
+            metrics["last_reboot"].add_metric(label_values, datetime.timestamp(datetime.strptime(network_details["last_reboot"], "%Y-%m-%dT%H:%M:%S.%fZ")) if network_details["last_reboot"] is not None else 0)
 
-            if network_details["homekit"] != None:
+            if network_details["homekit"] is not None:
                 metrics["homekit_enabled"].add_metric(label_values, 1 if network_details["homekit"]["enabled"] else 0)
                 metrics["homekit_managed_network"].add_metric(label_values, 1 if network_details["homekit"]["managedNetworkEnabled"] else 0)
 
@@ -165,8 +165,8 @@ class JsonCollector(object):
                 eero_label_values = [eero_id, eero_name] + label_values
                 metrics["eero_model"].add_metric(eero_label_values, value = {"model" : eero["model"]})
                 metrics["eero_model"].add_metric(eero_label_values, value = {"model_number" : eero["model_number"]})
-                metrics["eero_mesh_connection_quality"].add_metric(eero_label_values, eero["mesh_quality_bars"]/5 if eero["mesh_quality_bars"] != None else 0)
-                metrics["eero_mesh_connection_type"].add_metric(eero_label_values, value = {"connection" : eero["connection_type"] if eero["connection_type"] != None else "DISCONNECTED"})
+                metrics["eero_mesh_connection_quality"].add_metric(eero_label_values, eero["mesh_quality_bars"]/5 if eero["mesh_quality_bars"] is not None else 0)
+                metrics["eero_mesh_connection_type"].add_metric(eero_label_values, value = {"connection" : eero["connection_type"] if eero["connection_type"] is not None else "DISCONNECTED"})
                 metrics["eero_gateway"].add_metric(eero_label_values, 1 if eero["gateway"] else 0)
                 metrics["eero_status"].add_metric(eero_label_values, 1 if eero["status"] == "green" else 0)
                 metrics["eero_client_count"].add_metric(eero_label_values, eero["connected_clients_count"])
@@ -182,12 +182,12 @@ class JsonCollector(object):
                     ipv6_addresses.append(ipv6["address"])
                 metrics["eero_ipv6"].add_metric(eero_label_values, value = {"ipv6_address" : ", ".join(ipv6_addresses)})
                 metrics["eero_version"].add_metric(eero_label_values, value = {"version" : eero["os"]})
-                metrics["eero_last_reboot"].add_metric(eero_label_values, datetime.timestamp(datetime.strptime(eero["last_reboot"], "%Y-%m-%dT%H:%M:%S.%fZ")) if eero["last_reboot"] != None else 0)
+                metrics["eero_last_reboot"].add_metric(eero_label_values, datetime.timestamp(datetime.strptime(eero["last_reboot"], "%Y-%m-%dT%H:%M:%S.%fZ")) if eero["last_reboot"] is not None else 0)
 
             for client in network_clients:
-                client_label_values = [client["mac"], client["hostname"] if client["hostname"] != None else "", client["display_name"] if client["display_name"] != None else "", client["source"]["url"].split('/')[3], client["source"]["location"]] + label_values
+                client_label_values = [client["mac"], client["hostname"] if client["hostname"] is not None else "", client["display_name"] if client["display_name"] is not None else "", client["source"]["url"].split('/')[3], client["source"]["location"]] + label_values
                 for detail in client_details_list:
-                    if client[detail] != None:
+                    if client[detail] is not None:
                         metrics["client_details"].add_metric(client_label_values, value = {detail : client[detail]})
 
                 for ip in client["ips"]:
@@ -206,11 +206,11 @@ class JsonCollector(object):
                     metrics["client_tx_bandwidth"].add_metric(client_label_values, client["connectivity"]["tx_rate_info"]["rate_bps"] if client["connectivity"]["tx_rate_info"]["rate_bps"] != None else 0)
 
                     for rx in client["connectivity"]["rx_rate_info"]:
-                        if client["connectivity"]["rx_rate_info"][rx] != None:
+                        if client["connectivity"]["rx_rate_info"][rx] is not None:
                             if rx != "rate_bps":
                                 metrics["client_rx_connection_details"].add_metric(client_label_values, value = {str(rx) : str(client["connectivity"]["rx_rate_info"][rx])})
                     for tx in client["connectivity"]["tx_rate_info"]:
-                        if client["connectivity"]["tx_rate_info"][tx] != None:
+                        if client["connectivity"]["tx_rate_info"][tx] is not None:
                             if tx != "rate_bps":
                                 metrics["client_tx_connection_details"].add_metric(client_label_values, value = {str(tx) : str(client["connectivity"]["tx_rate_info"][tx])})
 
@@ -219,8 +219,8 @@ class JsonCollector(object):
                 if not client["wireless"]:
                     metrics["client_wired_bandwidth"].add_metric(client_label_values, client["connectivity"]["ethernet_status"]["speed"][1:] * 1000000)
 
-                metrics['client_blacklisted'].add_metric(client_label_values, 0 if not client["blacklisted"] or client["blacklisted"] == None else 1)
-                metrics['client_paused'].add_metric(client_label_values, 0 if not client["paused"] or client["paused"] == None else 1)
+                metrics['client_blacklisted'].add_metric(client_label_values, 0 if not client["blacklisted"] or client["blacklisted"] is None else 1)
+                metrics['client_paused'].add_metric(client_label_values, 0 if not client["paused"] or client["paused"] is None else 1)
 
                 metrics["client_guest"].add_metric(client_label_values, 1 if client["is_guest"] else 0)
 
