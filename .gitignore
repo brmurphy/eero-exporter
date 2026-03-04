@@ -1,2 +1,3 @@
 session.yml
 .github*
+__pycache__/*

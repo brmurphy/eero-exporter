@@ -222,10 +222,12 @@ class JsonCollector(object):
                 metrics['client_blacklisted'].add_metric(client_label_values, 0 if not client["blacklisted"] or client["blacklisted"] is None else 1)
                 metrics['client_paused'].add_metric(client_label_values, 0 if not client["paused"] or client["paused"] is None else 1)
 
+                # See Issue #9
                 metrics["client_guest"].add_metric(client_label_values, 1 if client["is_guest"] else 0)
 
-                if client["homekit"]["registered"]:
-                    metrics["client_homekit"].add_metric([client["homekit"]["protection_mode"]] + client_label_values, 1 if client["homekit"]["registered"] else 0)
+                if "homekit" in client and client["homekit"] is not None:
+                    if client["homekit"]["registered"]:
+                        metrics["client_homekit"].add_metric([client["homekit"]["protection_mode"]] + client_label_values, 1 if client["homekit"]["registered"] else 0)
 
             for metric in metrics:
                 print("yielding " + metric)
